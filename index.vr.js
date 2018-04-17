@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'lime',
     transform: [{ translate: [0, 0, -1] }],
     layoutOrigin: [0.5, 0.5],
+  },
+  entered: {
+    borderColor: 'red',
+    borderWidth: 0.05
   }
 })
 
@@ -20,7 +24,10 @@ export default class Events extends React.Component {
   constructor() {
     super()
 
-    this.state = { count: 0 }
+    this.state = { 
+      count: 0,
+      entered: false,
+    }
   }
 
   handle(e) {
@@ -35,8 +42,10 @@ export default class Events extends React.Component {
   render() {
     return (
       <View 
+        onEnter={() => { this.setState({ entered: true }); console.log('entered') }}
+        onExit={() => this.setState({ entered: false })}
         onInput={e => this.handle(e)}
-        style={styles.view}
+        style={[styles.view, this.state.entered ? styles.entered: {}]}
       >
         <Text>
           {this.state.count}
