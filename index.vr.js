@@ -5,6 +5,11 @@ import {
   View,
   StyleSheet
 } from 'react-vr';
+import {
+  instance 
+} from './timer'
+
+import Timer from './timer'
 
 const styles = StyleSheet.create({
   view: {
@@ -26,30 +31,33 @@ export default class Events extends React.Component {
 
     this.state = { 
       count: 0,
+      seconds: 0,
       entered: false,
     }
+  }
+
+  componentDidMount() {
+    console.log(this.setState)
+    instance(this.setState, this)
   }
 
   handle(e) {
     const evt = e.nativeEvent.inputEvent
     if (evt.type === 'KeyboardInputEvent') {
-      this.setState({ count: this.state.count + 1 })
       console.log(`Key pressed. \nkeyCode: ${evt.keyCode}.\nkey: ${evt.key}\neventType: ${evt.eventType}`)
-
     }
   }
 
   render() {
     return (
       <View 
-        onEnter={() => { this.setState({ entered: true }); console.log('entered') }}
-        onExit={() => this.setState({ entered: false })}
         onInput={e => this.handle(e)}
         style={[styles.view, this.state.entered ? styles.entered: {}]}
       >
         <Text>
-          {this.state.count}
+          {this.state.seconds}
         </Text>
+        <Timer />
       </View>
     );
   }
